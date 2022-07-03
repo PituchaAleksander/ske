@@ -42,7 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/webjars/**",
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
+            "/payu-callback/**"
             // other public endpoints of your API may be appended to this array
     };
 
@@ -82,6 +83,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT,"/api/book").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE,"/api/book").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET,"/api/book").hasRole("BASIC_USER")
+                .antMatchers(HttpMethod.PUT,"/api/order").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/api/order").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/order/user/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/order/**").hasRole("BASIC_USER")
                 .antMatchers("/api/cart").hasRole("BASIC_USER")
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers(AUTH_WHITELIST).permitAll()
