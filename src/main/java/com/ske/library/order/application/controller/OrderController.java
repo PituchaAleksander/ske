@@ -4,6 +4,7 @@ import com.ske.library.cart.application.response.CartDto;
 import com.ske.library.cart.domain.service.CartService;
 import com.ske.library.order.application.response.OrderAdminDto;
 import com.ske.library.order.application.response.OrderDto;
+import com.ske.library.order.application.response.PayuDto;
 import com.ske.library.order.domain.service.OrderService;
 import com.ske.library.payu.config.PayUConfigurationProperties;
 import com.ske.library.payu.model.*;
@@ -36,7 +37,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping()
-    public String handleCheckout(HttpServletRequest request) {
+    public PayuDto handleCheckout(HttpServletRequest request) {
         PayUForm payUForm = new PayUForm();
         UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         payUForm.setEmail(user.getEmail());
@@ -59,7 +60,7 @@ public class OrderController {
             throw new RuntimeException("Payment failed! ");
         }
 
-        return orderResponse.getRedirectUri();
+        return new PayuDto(orderResponse.getRedirectUri());
     }
 
     private OrderCreateRequest prepareOrderCreateRequest(final PayUForm payUForm, final HttpServletRequest request) {
