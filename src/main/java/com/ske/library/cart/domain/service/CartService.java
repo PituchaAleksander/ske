@@ -8,7 +8,7 @@ import com.ske.library.cart.domain.CartBook;
 import com.ske.library.cart.domain.repository.CartRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -45,20 +45,28 @@ public class CartService {
         Optional<Cart> o = cartRepository.findByUserUUID(userUUID);
 
         if(o.isPresent()){
-            CartBook cartBook = o.get().getBooks().stream().filter(item -> item.getBook().equals(book))
-                    .collect(Collectors.toList()).get(0);
-            cartBook.setCount(cartBook.getCount() + 1);
-            o.get().setPrice(o.get().getPrice() + book.getPrice());
-            return cartRepository.save(o.get()).toDto();
+            List<CartBook> cartBooks = o.get().getBooks().stream().filter(item -> item.getBook().equals(book)).collect(Collectors.toList());
+            if(cartBooks.size()>0){
+                CartBook cartBook = cartBooks.get(0);
+                cartBook.setCount(cartBook.getCount() + 1);
+                o.get().setPrice(o.get().getPrice() + book.getPrice());
+                return cartRepository.save(o.get()).toDto();
+            }else{
+                CartBook cartBook = new CartBook(book, 1);
+                o.get().setPrice(o.get().getPrice() + book.getPrice());
+                o.get().getBooks().add(cartBook);
+                return cartRepository.save(o.get()).toDto();
+            }
+
         }else{
             Cart cart = new Cart(userUUID, Arrays.asList(new CartBook(book, 1)), book.getPrice());
             return cartRepository.save(cart).toDto();
         }
     }
 
-    public ResponseEntity<?> clearCart(String userUUID){
+    public HttpStatus clearCart(String userUUID){
         cartRepository.deleteByUserUUID(userUUID);
-        return ResponseEntity.ok("OK");
+        return HttpStatus.OK;
     }
 
     public CartDto removeBookToCart(String id, String userUUID){

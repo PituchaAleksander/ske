@@ -97,12 +97,12 @@ public class OrderController {
         return orderService.getOrders(user.getUserUUID());
     }
 
-    @GetMapping("/user/{userId}")
-    public List<OrderDto> getUserOrdersParam(@RequestParam String userId) {
-        return orderService.getOrders(userId);
+    @GetMapping("/user/all")
+    public List<OrderDto> getUserOrdersParam() {
+        return orderService.getOrders();
     }
 
-    @PutMapping("/accept/{userId}")
+    @PutMapping("/accept/{orderId}")
     public OrderDto acceptOrder(@RequestParam String orderId) {
         return orderService.acceptOrder(orderId);
     }

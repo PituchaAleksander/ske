@@ -30,6 +30,12 @@ public class OrderService {
         return orderRepository.save(o).toDto();
     }
 
+    public List<OrderDto> getOrders(){
+        List<Order> list = orderRepository.findAll();
+
+        return list.stream().map(o -> o.toDto()).toList();
+    }
+
     public List<OrderDto> getOrders(String userUUID){
         List<Order> list = orderRepository.findAllByUserUUID(userUUID);
 
