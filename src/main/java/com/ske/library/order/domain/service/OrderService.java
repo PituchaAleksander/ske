@@ -1,6 +1,7 @@
 package com.ske.library.order.domain.service;
 
 import com.ske.library.cart.application.response.CartDto;
+import com.ske.library.order.application.response.OrderAdminDto;
 import com.ske.library.order.application.response.OrderDto;
 import com.ske.library.order.domain.Order;
 import com.ske.library.order.domain.repository.OrderRepository;
@@ -30,10 +31,10 @@ public class OrderService {
         return orderRepository.save(o).toDto();
     }
 
-    public List<OrderDto> getOrders(){
+    public List<OrderAdminDto> getOrders(){
         List<Order> list = orderRepository.findAll();
 
-        return list.stream().map(o -> o.toDto()).toList();
+        return list.stream().map(o -> o.toAdminDto(userRepository.findByUserUUID(o.getUserUUID()).get().getUsername())).toList();
     }
 
     public List<OrderDto> getOrders(String userUUID){
@@ -46,7 +47,7 @@ public class OrderService {
         Optional<Order> o = orderRepository.findById(orderId);
         o.get().setAccept(true);
 
-        return o.get().toDto();
+        return orderRepository.save(o.get()).toDto();
     }
 
     public ResponseEntity<?> removeOrder(String orderId){

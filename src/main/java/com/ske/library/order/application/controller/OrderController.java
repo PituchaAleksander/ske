@@ -2,6 +2,7 @@ package com.ske.library.order.application.controller;
 
 import com.ske.library.cart.application.response.CartDto;
 import com.ske.library.cart.domain.service.CartService;
+import com.ske.library.order.application.response.OrderAdminDto;
 import com.ske.library.order.application.response.OrderDto;
 import com.ske.library.order.domain.service.OrderService;
 import com.ske.library.payu.config.PayUConfigurationProperties;
@@ -26,6 +27,7 @@ import static com.ske.library.payu.model.OrderCreateResponse.Status.STATUS_CODE_
 @RestController
 @RequestMapping("api/order")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class OrderController {
 
     private final PayUOrderService payuOrderService;
@@ -97,13 +99,13 @@ public class OrderController {
         return orderService.getOrders(user.getUserUUID());
     }
 
-    @GetMapping("/user/all")
-    public List<OrderDto> getUserOrdersParam() {
+    @GetMapping("/all")
+    public List<OrderAdminDto> getUserOrdersParam() {
         return orderService.getOrders();
     }
 
     @PutMapping("/accept/{orderId}")
-    public OrderDto acceptOrder(@RequestParam String orderId) {
+    public OrderDto acceptOrder(@PathVariable String orderId) {
         return orderService.acceptOrder(orderId);
     }
 
