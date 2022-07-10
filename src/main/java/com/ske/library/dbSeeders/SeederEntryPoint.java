@@ -12,14 +12,26 @@ import org.springframework.context.annotation.Configuration;
 public class SeederEntryPoint implements ISeeder{
 
     private final UserPersonSeeder userPersonSeeder;
+    private final OrderSeeder orderSeeder;
+    private final CartSeeder cartSeeder;
+    private final BookSeeder bookSeeder;
+    private final RoleSeeder roleSeeder;
 
     @Override
     public void seed() {
-           userPersonSeeder.seed();
+        orderSeeder.seed();
+        cartSeeder.seed();
+        bookSeeder.seed();
+        roleSeeder.seed();
+        userPersonSeeder.seed();
     }
 
     @Override
     public void resetDb() {
+        orderSeeder.resetDb();
+        cartSeeder.resetDb();
+        bookSeeder.resetDb();
+        roleSeeder.resetDb();
         userPersonSeeder.resetDb();
     }
 
