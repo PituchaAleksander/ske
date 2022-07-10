@@ -29,8 +29,8 @@ public class Order {
         this.accept = false;
     }
 
-    public OrderDto toDto(){
-        return new OrderDto(this.id, this.getBooks(), this.price, this.accept);
+    public OrderDto toDto(String userName){
+        return new OrderDto(this.id, this.getBooks(), this.price, this.accept, userName);
     }
 
     public OrderAdminDto toAdminDto(String userName){

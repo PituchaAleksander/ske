@@ -28,7 +28,7 @@ public class OrderService {
     public OrderDto saveOrder(String userUUID, CartDto cartDto){
         Order o = new Order(userUUID, cartDto.getBooks(), cartDto.getPrice());
 
-        return orderRepository.save(o).toDto();
+        return orderRepository.save(o).toDto(userRepository.findByUserUUID(userUUID).get().getUsername());
     }
 
     public List<OrderAdminDto> getOrders(){
@@ -40,14 +40,14 @@ public class OrderService {
     public List<OrderDto> getOrders(String userUUID){
         List<Order> list = orderRepository.findAllByUserUUID(userUUID);
 
-        return list.stream().map(o -> o.toDto()).toList();
+        return list.stream().map(o -> o.toDto(userRepository.findByUserUUID(userUUID).get().getUsername())).toList();
     }
 
     public OrderDto acceptOrder(String orderId){
         Optional<Order> o = orderRepository.findById(orderId);
         o.get().setAccept(true);
 
-        return orderRepository.save(o.get()).toDto();
+        return orderRepository.save(o.get()).toDto( userRepository.findByUserUUID(o.get().getUserUUID()).get().getUsername() );
     }
 
     public ResponseEntity<?> removeOrder(String orderId){

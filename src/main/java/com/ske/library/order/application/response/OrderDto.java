@@ -20,4 +20,5 @@ public class OrderDto {
 
     private boolean accept;
 
+    private String userName;
 }
