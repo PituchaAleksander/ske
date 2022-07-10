@@ -2,12 +2,17 @@
 
 #### User manual
 
-1. Run docker
+1. Install docker
+    ````
+    https://www.docker.com/get-started/
+    ````
+   
+2. Run docker
     ````
     docker-compose up -d 
     ````
 
-2. Run SureTime application
+3. Run SureTime application
     ```
     mvn spring-boot:run
     ```
