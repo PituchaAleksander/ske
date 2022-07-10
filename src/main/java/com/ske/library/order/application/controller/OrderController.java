@@ -46,14 +46,14 @@ public class OrderController {
 
         log.info(payUForm.toString());
 
-        orderService.saveOrder(user.getUserUUID(), cart);
-        cartService.clearCart(user.getUserUUID());
-
         final OrderCreateRequest orderRequest = prepareOrderCreateRequest(payUForm, request);
 
         log.info("Order request = {}", orderRequest);
 
         final OrderCreateResponse orderResponse = payuOrderService.order(orderRequest);
+
+        orderService.saveOrder(user.getUserUUID(), cart);
+        cartService.clearCart(user.getUserUUID());
 
         if (!orderResponse.getStatus().getStatusCode().equals(STATUS_CODE_SUCCESS)) {
             throw new RuntimeException("Payment failed! ");

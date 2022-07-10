@@ -20,5 +20,4 @@ public class OrderDto {
 
     private boolean accept;
 
-    private boolean paid;
 }

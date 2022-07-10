@@ -22,21 +22,18 @@ public class Order {
 
     private boolean accept;
 
-    private boolean paid;
-
     public Order(String userUUID, List<CartBook> books, float price) {
         this.books = books;
         this.userUUID = userUUID;
         this.price = price;
         this.accept = false;
-        this.paid = false;
     }
 
     public OrderDto toDto(){
-        return new OrderDto(this.id, this.getBooks(), this.price, this.accept, this.paid);
+        return new OrderDto(this.id, this.getBooks(), this.price, this.accept);
     }
 
     public OrderAdminDto toAdminDto(String userName){
-        return new OrderAdminDto(this.id, this.getBooks(), this.price, this.accept, this.paid, this.userUUID, userName);
+        return new OrderAdminDto(this.id, this.getBooks(), this.price, this.accept, this.userUUID, userName);
     }
 }

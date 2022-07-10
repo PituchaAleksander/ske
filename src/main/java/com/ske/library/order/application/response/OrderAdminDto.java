@@ -20,8 +20,6 @@ public class OrderAdminDto {
 
     private boolean accept;
 
-    private boolean paid;
-
     private String userUUID;
 
     private String userName;
